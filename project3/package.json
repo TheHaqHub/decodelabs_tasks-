@@ -1,0 +1,12 @@
+{
+  "name": "user-management-api-sqlite",
+  "version": "1.0.0",
+  "description": "RESTful User Management API with SQLite Database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sql.js": "^1.10.3"  }
+}
