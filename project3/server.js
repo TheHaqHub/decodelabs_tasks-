@@ -1,8 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const { getDb } = require('./database/db');
 const usersRouter = require('./routes/users');
 
+app.use(cors({
+  origin: ['https://decodelabs-tasks-six.vercel.app', 'http://localhost:3000']
+}));
 app.use(express.json());
 app.use('/users', usersRouter);
 
