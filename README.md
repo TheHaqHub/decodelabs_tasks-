@@ -275,10 +275,14 @@ Program: DecodeLabs Full Stack Internship · Batch 2026
 ## 📸 Screenshots (Project 4)
 
 ### Home Page
-![Home](./project4/screenshots/home.png)
+![Home](./project4/home.png)
 
 ### Add User
-![Add User](./project4/screenshots/add.png)
+![Add User](./project4/add-user.png)
 
 ### Edit User
-![Edit](./project4/screenshots/edit.png)
+![Edit](./project4/edit_01-user.png)
+
+### Delete User
+![Delete](./project4/delete-user.png)
+
