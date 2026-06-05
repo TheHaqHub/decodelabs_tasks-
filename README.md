@@ -275,7 +275,7 @@ Program: DecodeLabs Full Stack Internship · Batch 2026
 ## 📸 Screenshots (Project 4)
 
 ### Home Page
-![Home](./project4/add-user.png)
+![Home](./project4/home-page.png)
 
 ### Add User
 ![Add User](./project4/add-user.png)
