@@ -297,6 +297,40 @@
       font-size: 0.78rem;
       margin-top: 40px;
     }
+
+    /* ── MOBILE RESPONSIVE ────────────────────────────── */
+@media (max-width: 600px) {
+  body { padding: 20px 12px 60px; }
+
+  .header h1 { font-size: 1.6rem; }
+
+  .card { padding: 18px 16px; }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid input:first-child { grid-column: 1; }
+
+  .user-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .user-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btn-group { flex-wrap: wrap; }
+
+  .edit-inline {
+    grid-template-columns: 1fr;
+  }
+  .edit-inline .edit-actions {
+    grid-column: 1;
+  }
+}
   </style>
 </head>
 <body>
