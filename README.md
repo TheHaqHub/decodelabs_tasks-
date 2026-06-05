@@ -224,6 +224,33 @@ DOM updated in real-time
 
 ---
 
+## 🧠 Design Decisions
+
+- Used `sql.js` instead of `better-sqlite3` to avoid native C++ compilation issues on Windows — pure JavaScript SQLite with identical SQL syntax
+- Separated routes, middleware, and database layers for scalability
+- Used native `fetch()` API instead of Axios to demonstrate core JS understanding
+- CORS enabled on backend to support file-based frontend development
+
+---
+
+
+## ⚙️ Configuration
+
+No environment variables required for Project 2 or 4.  
+Project 3 uses a local SQLite database file (`users.db`) auto-created on first run.
+
+---
+
+## 🚧 Future Improvements
+
+- Add JWT authentication
+- Add pagination for large user lists
+- Deploy backend to Render or Railway
+- Add input sanitization library (e.g. DOMPurify)
+- Add unit tests with Jest
+
+---
+
 ## 🎯 Key Learning Outcomes
 
 - Designed and implemented RESTful APIs following industry conventions
