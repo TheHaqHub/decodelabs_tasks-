@@ -3,199 +3,512 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Management</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>User Management — DecodeLabs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── RESET & BASE ─────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0d0f14;
+      --surface:   #151820;
+      --border:    #232733;
+      --accent:    #6ee7b7;
+      --accent2:   #38bdf8;
+      --danger:    #f87171;
+      --warning:   #fbbf24;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --radius:    14px;
+      --shadow:    0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 16px 80px;
+    }
+
+    /* ── LAYOUT ───────────────────────────────────────── */
+    .container { max-width: 680px; margin: 0 auto; }
+
+    /* ── HEADER ───────────────────────────────────────── */
+    .header { margin-bottom: 40px; }
+    .header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+    .header p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── CARD ─────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title .count {
+      background: rgba(110,231,183,0.12);
+      color: var(--accent);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* ── FORM ─────────────────────────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-grid input:first-child { grid-column: 1 / -1; }
+
+    input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder { color: var(--muted); }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(110,231,183,0.1);
+    }
+
+    /* ── BUTTONS ──────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 20px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0f14;
+      width: 100%;
+      justify-content: center;
+      margin-top: 15px;
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: #4ade80; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-edit {
+      background: rgba(251,191,36,0.12);
+      color: var(--warning);
+      border: 1px solid rgba(251,191,36,0.2);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+    }
+    .btn-edit:hover { background: rgba(251,191,36,0.2); }
+
+    .btn-delete {
+      background: rgba(248,113,113,0.12);
+      color: var(--danger);
+      border: 1px solid rgba(248,113,113,0.2);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+    }
+    .btn-delete:hover { background: rgba(248,113,113,0.2); }
+
+    .btn-save {
+      background: rgba(110,231,183,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(110,231,183,0.2);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+    }
+    .btn-save:hover { background: rgba(110,231,183,0.2); }
+
+    .btn-cancel {
+      background: rgba(100,116,139,0.12);
+      color: var(--muted);
+      border: 1px solid rgba(100,116,139,0.2);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+    }
+    .btn-cancel:hover { background: rgba(100,116,139,0.2); }
+
+    /* ── MESSAGE ──────────────────────────────────────── */
+    .message {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      padding: 0;
+      transition: all 0.3s;
+    }
+    .message.success {
+      color: var(--accent);
+      background: rgba(110,231,183,0.08);
+      padding: 8px 14px;
+    }
+    .message.error {
+      color: var(--danger);
+      background: rgba(248,113,113,0.08);
+      padding: 8px 14px;
+    }
+
+    /* ── USER CARD ────────────────────────────────────── */
+    .user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s, background 0.2s;
+      animation: slideIn 0.3s ease;
+    }
+    .user-item:hover {
+      border-color: #2e3444;
+      background: rgba(255,255,255,0.02);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #0d0f14;
+      flex-shrink: 0;
+    }
+
+    .user-info { flex: 1; padding: 0 14px; }
+    .user-info h3 { font-size: 0.95rem; font-weight: 500; margin-bottom: 2px; }
+    .user-info p { font-size: 0.8rem; color: var(--muted); }
+
+    .user-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      background: rgba(56,189,248,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(56,189,248,0.15);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .btn-group { display: flex; gap: 6px; }
+
+    /* ── EDIT FORM INLINE ─────────────────────────────── */
+    .edit-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr 80px;
+      gap: 8px;
+      width: 100%;
+      align-items: center;
+    }
+    .edit-inline input {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+    }
+    .edit-inline .edit-actions {
+      display: flex;
+      gap: 6px;
+      grid-column: 1 / -1;
+    }
+
+    /* ── STATES ───────────────────────────────────────── */
+    .state-box {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .state-box .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .state-box p { font-size: 0.9rem; }
+
+    /* ── SPINNER ──────────────────────────────────────── */
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 30px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── DIVIDER ──────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
     <h1>User Management</h1>
-    <p class="subtitle">DecodeLabs Project 4 — Full Stack Integration</p>
+    <p>DecodeLabs · Full Stack Integration</p>
+  </div>
 
-    <!-- Add User Form -->
-    <div class="card">
-      <h2>Add New User</h2>
-      <div class="form-group">
-        <input type="text" id="name" placeholder="Full Name" />
-        <input type="email" id="email" placeholder="Email Address" />
-        <input type="number" id="age" placeholder="Age" />
-        <button onclick="addUser()">Add User</button>
-      </div>
-      <p id="form-message" class="message"></p>
+  <!-- Add User -->
+  <div class="card">
+    <div class="card-title">Add New User</div>
+    <div class="form-grid">
+      <input type="text"   id="name"  placeholder="Full Name" autocomplete="off"/>
+      <input type="email"  id="email" placeholder="Email Address" autocomplete="off"/>
+      <input type="number" id="age"   placeholder="Age" min="0" max="120"/>
     </div>
+    <button class="btn btn-primary" onclick="addUser()">
+      + Add User
+    </button>
+    <div id="form-message" class="message"></div>
+  </div>
 
-    <!-- Users List -->
-    <div class="card">
-      <h2>All Users <span id="user-count"></span></h2>
-      <div id="users-container">
-        <p class="loading">Loading users...</p>
-      </div>
+  <!-- Users List -->
+  <div class="card">
+    <div class="card-title">
+      All Users
+      <span class="count" id="user-count">0</span>
+    </div>
+    <div id="users-container">
+      <div class="spinner"></div>
     </div>
   </div>
 
-  <script>
-    const API = 'http://localhost:3000/users';
+  <div class="footer">Built with Node.js · Express · SQLite · Vanilla JS</div>
+</div>
 
-    // ── FETCH & DISPLAY ALL USERS ──────────────────────────
-    async function loadUsers() {
-      const container = document.getElementById('users-container');
-      const countEl = document.getElementById('user-count');
+<script>
+  const API = 'https://decodelabstasks-production.up.railway.app/users';
 
-      try {
-        const response = await fetch(API);
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+  // ── LOAD ALL USERS ─────────────────────────────────────
+  async function loadUsers() {
+    const container = document.getElementById('users-container');
+    const countEl   = document.getElementById('user-count');
+    container.innerHTML = '<div class="spinner"></div>';
 
-        const users = await response.json();
-        countEl.textContent = `(${users.length})`;
+    try {
+      const res   = await fetch(API);
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      const users = await res.json();
 
-        if (users.length === 0) {
-          container.innerHTML = '<p class="empty">No users found. Add one above!</p>';
-          return;
-        }
+      countEl.textContent = users.length;
 
-        container.innerHTML = users.map(user => `
-          <div class="user-card" id="user-${user.id}">
-            <div class="user-info">
-              <h3>${user.name}</h3>
-              <p>${user.email}</p>
-              <span class="badge">Age: ${user.age}</span>
-            </div>
-            <button class="edit-btn" onclick="openEdit(${user.id}, '${user.name}', '${user.email}', ${user.age})">Edit</button>
-            <button class="delete-btn" onclick="deleteUser(${user.id})">Delete</button>
-          </div>
-        `).join('');
-
-      } catch (error) {
-        container.innerHTML = `<p class="error">Failed to load users. Is the server running?</p>`;
-        console.error(error);
-      }
-    }
-
-    // ── ADD USER ───────────────────────────────────────────
-    async function addUser() {
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const age = parseInt(document.getElementById('age').value);
-      const msgEl = document.getElementById('form-message');
-
-      // Frontend validation
-      if (!name || !email || !age) {
-        showMessage('All fields are required.', 'error');
+      if (users.length === 0) {
+        container.innerHTML = `
+          <div class="state-box">
+            <div class="icon">👤</div>
+            <p>No users yet. Add one above!</p>
+          </div>`;
         return;
       }
 
-      try {
-        const response = await fetch(API, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, age })
-        });
+      container.innerHTML = users.map(u => renderUserCard(u)).join('');
 
-        const data = await response.json();
+    } catch (err) {
+      container.innerHTML = `
+        <div class="state-box">
+          <div class="icon">⚠️</div>
+          <p>Could not connect to server.<br>Make sure the backend is running.</p>
+        </div>`;
+      console.error('loadUsers:', err);
+    }
+  }
 
-        if (!response.ok) {
-          showMessage(data.error || 'Failed to add user.', 'error');
-          return;
-        }
+  // ── RENDER USER CARD ───────────────────────────────────
+  function renderUserCard(u) {
+    const initial = u.name.charAt(0).toUpperCase();
+    return `
+      <div class="user-item" id="user-${u.id}">
+        <div class="user-avatar">${initial}</div>
+        <div class="user-info">
+          <h3>${escapeHtml(u.name)}</h3>
+          <p>${escapeHtml(u.email)}</p>
+        </div>
+        <div class="user-meta">
+          <span class="badge">Age ${u.age}</span>
+          <div class="btn-group">
+            <button class="btn btn-edit"
+              onclick="openEdit(${u.id}, '${escapeAttr(u.name)}', '${escapeAttr(u.email)}', ${u.age})">
+              Edit
+            </button>
+            <button class="btn btn-delete" onclick="deleteUser(${u.id})">Delete</button>
+          </div>
+        </div>
+      </div>`;
+  }
 
-        showMessage(`User "${data.name}" added successfully!`, 'success');
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('age').value = '';
-        loadUsers();
+  // ── ADD USER ───────────────────────────────────────────
+  async function addUser() {
+    const name  = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const age   = parseInt(document.getElementById('age').value);
 
-      } catch (error) {
-        showMessage('Server error. Try again.', 'error');
-        console.error(error);
-      }
+    if (!name || !email || !age) {
+      showMsg('All fields are required.', 'error'); return;
     }
 
-    // ── DELETE USER ────────────────────────────────────────
-    async function deleteUser(id) {
-      if (!confirm('Are you sure you want to delete this user?')) return;
+    try {
+      const res  = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, age })
+      });
+      const data = await res.json();
 
-      try {
-        const response = await fetch(`${API}/${id}`, { method: 'DELETE' });
+      if (!res.ok) { showMsg(data.error || 'Failed to add user.', 'error'); return; }
 
-        if (!response.ok) {
-          alert('Failed to delete user.');
-          return;
-        }
+      showMsg(`✓ "${data.name}" added successfully!`, 'success');
+      ['name','email','age'].forEach(id => document.getElementById(id).value = '');
+      loadUsers();
 
-        // Remove from DOM instantly
-        document.getElementById(`user-${id}`).remove();
+    } catch (err) {
+      showMsg('Server error. Try again.', 'error');
+      console.error('addUser:', err);
+    }
+  }
 
-        // Update count
+  // ── EDIT USER ──────────────────────────────────────────
+  function openEdit(id, name, email, age) {
+    const card = document.getElementById(`user-${id}`);
+    card.innerHTML = `
+      <div class="edit-inline" style="width:100%">
+        <input type="text"   id="en-${id}" value="${name}"  placeholder="Name"/>
+        <input type="email"  id="ee-${id}" value="${email}" placeholder="Email"/>
+        <input type="number" id="ea-${id}" value="${age}"   placeholder="Age"/>
+        <div class="edit-actions">
+          <button class="btn btn-save"   onclick="saveEdit(${id})">Save</button>
+          <button class="btn btn-cancel" onclick="loadUsers()">Cancel</button>
+        </div>
+      </div>`;
+  }
+
+  async function saveEdit(id) {
+    const name  = document.getElementById(`en-${id}`).value.trim();
+    const email = document.getElementById(`ee-${id}`).value.trim();
+    const age   = parseInt(document.getElementById(`ea-${id}`).value);
+
+    if (!name || !email || !age) { alert('All fields are required.'); return; }
+
+    try {
+      const res  = await fetch(`${API}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, age })
+      });
+      const data = await res.json();
+      if (!res.ok) { alert(data.error || 'Update failed.'); return; }
+      loadUsers();
+
+    } catch (err) {
+      alert('Server error. Try again.');
+      console.error('saveEdit:', err);
+    }
+  }
+
+  // ── DELETE USER ────────────────────────────────────────
+  async function deleteUser(id) {
+    if (!confirm('Delete this user? This cannot be undone.')) return;
+
+    try {
+      const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+      if (!res.ok) { alert('Delete failed.'); return; }
+
+      const card = document.getElementById(`user-${id}`);
+      card.style.opacity = '0';
+      card.style.transform = 'translateX(20px)';
+      card.style.transition = 'all 0.3s';
+      setTimeout(() => {
+        card.remove();
         const countEl = document.getElementById('user-count');
-        const current = parseInt(countEl.textContent.replace(/\D/g, '')) - 1;
-        countEl.textContent = `(${current})`;
+        countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+      }, 300);
 
-      } catch (error) {
-        alert('Server error. Try again.');
-        console.error(error);
-      }
+    } catch (err) {
+      alert('Server error. Try again.');
+      console.error('deleteUser:', err);
     }
-
-    // ── HELPER ─────────────────────────────────────────────
-    function showMessage(text, type) {
-      const el = document.getElementById('form-message');
-      el.textContent = text;
-      el.className = `message ${type}`;
-      setTimeout(() => { el.textContent = ''; el.className = 'message'; }, 4000);
-    }
-
-    // Load on page start
-    loadUsers();
-
-    // --─ EDIT USER FUNCTIONALITY (BONUS) ─────────────────────
-
-    // ── EDIT USER ──────────────────────────────────────────
-function openEdit(id, name, email, age) {
-  const card = document.getElementById(`user-${id}`);
-  card.innerHTML = `
-    <div class="edit-form">
-      <input type="text" id="edit-name-${id}" value="${name}" placeholder="Full Name"/>
-      <input type="email" id="edit-email-${id}" value="${email}" placeholder="Email"/>
-      <input type="number" id="edit-age-${id}" value="${age}" placeholder="Age"/>
-      <div class="btn-group">
-        <button class="edit-btn" onclick="saveEdit(${id})">Save</button>
-        <button class="delete-btn" onclick="loadUsers()">Cancel</button>
-      </div>
-    </div>
-  `;
-}
-
-async function saveEdit(id) {
-  const name  = document.getElementById(`edit-name-${id}`).value.trim();
-  const email = document.getElementById(`edit-email-${id}`).value.trim();
-  const age   = parseInt(document.getElementById(`edit-age-${id}`).value);
-
-  if (!name || !email || !age) {
-    alert('All fields are required.');
-    return;
   }
 
-  try {
-    const response = await fetch(`${API}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, age })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      alert(data.error || 'Failed to update user.');
-      return;
-    }
-
-    loadUsers();
-
-  } catch (error) {
-    alert('Server error. Try again.');
-    console.error(error);
+  // ── HELPERS ────────────────────────────────────────────
+  function showMsg(text, type) {
+    const el = document.getElementById('form-message');
+    el.textContent = text;
+    el.className = `message ${type}`;
+    setTimeout(() => { el.textContent = ''; el.className = 'message'; }, 4000);
   }
-}
-  </script>
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function escapeAttr(str) {
+    return String(str).replace(/'/g, "\\'");
+  }
+
+  // ── INIT ───────────────────────────────────────────────
+  loadUsers();
+</script>
 </body>
 </html>
