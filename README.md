@@ -268,3 +268,17 @@ Project 3 uses a local SQLite database file (`users.db`) auto-created on first r
 **Abdul Haq**  
 GitHub: [TheHaqHub](https://github.com/TheHaqHub/decodelabs_tasks-)  
 Program: DecodeLabs Full Stack Internship · Batch 2026
+
+---
+
+
+## 📸 Screenshots (Project 4)
+
+### Home Page
+![Home](./project4/screenshots/home.png)
+
+### Add User
+![Add User](./project4/screenshots/add.png)
+
+### Edit User
+![Edit](./project4/screenshots/edit.png)
